@@ -58,8 +58,9 @@ A full-stack movie logging application with a Flask backend and React frontend. 
     pip install -r requirements.txt
     ```
 
-4. Create a PostgreSQL database for the app.
+4. Create a PostgreSQL database for the app. I used Neon Serverless Postgres.
 
+![App Screenshot](images/neondatabase.png)
 ![App Screenshot](images/neondb.png)
 
 5. Create a `.env` file in the backend folder with the following:
