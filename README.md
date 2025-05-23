@@ -1,70 +1,158 @@
-# Getting Started with Create React App
+# Movie Review Log
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A full-stack movie logging application with a Flask backend and React frontend. Users can create, read, update, and delete movie reviews including movie name, watch date, rating, and optional text review. The app validates input including preventing future watch dates.
 
-## Available Scripts
+---
 
-In the project directory, you can run:
+## Features
 
-### `npm start`
+- Add new movie reviews with movie name, watch date, rating (0-10), and optional review text
+- Edit existing movie reviews
+- Delete movie reviews
+- View all reviews in a table sorted by watch date (newest first)
+- Validation to prevent watch dates in the future
+- Simple and clean UI using React
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+---
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## Tech Stack
 
-### `npm test`
+- Backend: Python, Flask, PostgreSQL, psycopg2, Flask-CORS
+- Frontend: React, Axios
+- Styling: Tailwind CSS (optional, fallback CSS included)
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+---
 
-### `npm run build`
+## Getting Started
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### Prerequisites
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+- Python 3.8+
+- PostgreSQL installed and running
+- Node.js 16+ and npm or yarn
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+---
 
-### `npm run eject`
+### Backend Setup
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+1. Clone the repo and navigate to the backend folder (or root if combined):
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+    ```bash
+    git clone <your-repo-url>
+    cd <backend-folder>
+    ```
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+2. Create a Python virtual environment and activate it:
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+    ```bash
+    python -m venv venv
+    # On Windows
+    venv\Scripts\activate
+    # On macOS/Linux
+    source venv/bin/activate
+    ```
 
-## Learn More
+3. Install Python dependencies:
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+    ```bash
+    pip install -r requirements.txt
+    ```
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+4. Create a PostgreSQL database for the app.
 
-### Code Splitting
+5. Create a `.env` file in the backend folder with the following:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+    ```
+    DATABASE_URL=postgresql://username:password@localhost:5432/your_database_name
+    ```
 
-### Analyzing the Bundle Size
+6. Run the Flask backend server:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+    ```bash
+    python app.py
+    ```
 
-### Making a Progressive Web App
+7. (Optional) To create the database table and insert sample data, POST to:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+    ```
+    http://localhost:5000/api/debug/create-table
+    ```
 
-### Advanced Configuration
+---
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+### Frontend Setup
 
-### Deployment
+1. Navigate to the React frontend folder (e.g., `client`):
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+    ```bash
+    cd client
+    ```
 
-### `npm run build` fails to minify
+2. Install frontend dependencies:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+    ```bash
+    npm install
+    ```
+
+3. Start the React development server:
+
+    ```bash
+    npm start
+    ```
+
+4. The app will open at [http://localhost:3000](http://localhost:3000).
+
+---
+
+### Notes on Styling
+
+- The React app uses Tailwind CSS for styling by default.
+- If you cannot install or use Tailwind, replace `src/App.css` with the provided fallback CSS and import it into `App.js`.
+- Tailwind installation requires Node.js and proper setup; consult [Tailwind docs](https://tailwindcss.com/docs/guides/create-react-app) if needed.
+
+---
+
+## API Endpoints
+
+| Method | Endpoint               | Description                |
+|--------|------------------------|----------------------------|
+| GET    | `/api/health`          | Health check of backend    |
+| GET    | `/api/movies`          | Get all movies             |
+| POST   | `/api/movies`          | Create a new movie review  |
+| GET    | `/api/movies/<id>`     | Get movie by ID            |
+| PUT    | `/api/movies/<id>`     | Update movie by ID         |
+| DELETE | `/api/movies/<id>`     | Delete movie by ID         |
+| POST   | `/api/debug/create-table` | Create table and seed data (debug) |
+
+---
+
+## Usage
+
+- Add a movie by filling the form and clicking **Add Movie**.
+- Edit an existing movie by clicking **Edit**, modifying fields, then **Update Movie**.
+- Delete a movie by clicking **Delete**.
+- The watch date must not be a future date.
+- Ratings must be between 0 and 10.
+
+---
+
+## Troubleshooting
+
+- Make sure PostgreSQL is running and `DATABASE_URL` is correct.
+- Backend runs on port `5000` by default.
+- Frontend runs on port `3000` by default.
+- If CORS issues occur, ensure Flask-CORS is enabled.
+- For date validation, ensure your system date/time is correct.
+
+---
+
+## License
+
+MIT License © Huseyin Samet Alemdar
+
+---
+
+## Contact
+
+For questions or feedback, please contact [sametalemdar111@gmail.com].
+
