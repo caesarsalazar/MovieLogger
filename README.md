@@ -60,6 +60,8 @@ A full-stack movie logging application with a Flask backend and React frontend. 
 
 4. Create a PostgreSQL database for the app.
 
+![App Screenshot](images/neondb.png)
+
 5. Create a `.env` file in the backend folder with the following:
 
     ```
